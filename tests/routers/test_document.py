@@ -1,4 +1,4 @@
-from app.database import db
+# from app.database import db
 
 import pytest
 import sys
@@ -26,6 +26,8 @@ def test_can_read_documents(rs, create_document, mock_database):
     )
     assert isinstance(r.json(), list), "Response body should be list"
     assert "name" in r.json()[0]
+
+
 #
 #
 # def test_can_read_document(rs, create_document):

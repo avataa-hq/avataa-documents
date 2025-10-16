@@ -64,7 +64,7 @@ if security_config.SECURITY_TYPE != "DISABLE":
     app_v1.include_router(security_router.router)
 # app.include_router(hub_router.router, prefix=PREFIX)
 # app.include_router(listener_router.router, prefix=PREFIX)
-app.mount(PREFIX, app_v1)
+app.mount("/v1", app_v1)
 
 
 @app.get(PREFIX, include_in_schema=False)

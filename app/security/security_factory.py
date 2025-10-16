@@ -7,6 +7,12 @@ from security.security_interface import SecurityInterface
 
 
 class SecurityFactory:
+    def __init__(self):
+        self.scopes = {
+            "profile": "Read claims that represent basic profile information",
+            "openid": "OpenID Connect scope",
+        }
+
     def get(self, security_type: str) -> SecurityInterface:
         match security_type.upper():
             case "KEYCLOAK":
@@ -29,9 +35,7 @@ class SecurityFactory:
         token_url = security_config.KEYCLOAK_TOKEN_URL
         authorization_url = security_config.KEYCLOAK_AUTHORIZATION_URL
         refresh_url = authorization_url
-        scopes = {
-            "profile": "Read claims that represent basic profile information"
-        }
+        scopes = self.scopes
 
         return Keycloak(
             keycloak_public_url=keycloak_public_url,
@@ -46,9 +50,7 @@ class SecurityFactory:
         token_url = security_config.KEYCLOAK_TOKEN_URL
         authorization_url = security_config.KEYCLOAK_AUTHORIZATION_URL
         refresh_url = authorization_url
-        scopes = {
-            "profile": "Read claims that represent basic profile information"
-        }
+        scopes = self.scopes
         return OpaJwtRaw(
             opa_url=security_config.OPA_URL,
             policy_path=security_config.OPA_POLICY_PATH,
@@ -64,9 +66,7 @@ class SecurityFactory:
         token_url = security_config.KEYCLOAK_TOKEN_URL
         authorization_url = security_config.KEYCLOAK_AUTHORIZATION_URL
         refresh_url = authorization_url
-        scopes = {
-            "profile": "Read claims that represent basic profile information"
-        }
+        scopes = self.scopes
         return OpaJwtParsed(
             opa_url=security_config.OPA_URL,
             policy_path=security_config.OPA_POLICY_PATH,
@@ -82,9 +82,7 @@ class SecurityFactory:
         token_url = security_config.KEYCLOAK_TOKEN_URL
         authorization_url = security_config.KEYCLOAK_AUTHORIZATION_URL
         refresh_url = authorization_url
-        scopes = {
-            "profile": "Read claims that represent basic profile information"
-        }
+        scopes = self.scopes
         cache = UserInfoCache()
         cache_user_info_url = security_config.SECURITY_MIDDLEWARE_URL
         return KeycloakInfo(

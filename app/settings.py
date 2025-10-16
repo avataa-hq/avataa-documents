@@ -2,22 +2,21 @@ import os
 
 
 # URL = os.environ.get('URL', 'http://127.0.0.1:8101')
-MINIO_URL = os.environ.get("MINIO_URL", "127.0.0.1:9000")
-MINIO_USER = os.environ.get("MINIO_USER", "MINIO_ADMIN_USER")
-MINIO_PASSWORD = os.environ.get("MINIO_PASSWORD", "MINIO_ADMIN_PASSWORD")
-MINIO_BUCKET = os.environ.get("MINIO_BUCKET", "ms-document")
+MINIO_URL = os.environ.get("MINIO_URL", "")
+MINIO_USER = os.environ.get("MINIO_USER", "documents")
+MINIO_PASSWORD = os.environ.get("MINIO_PASSWORD", "")
+MINIO_BUCKET = os.environ.get("MINIO_BUCKET", "documents")
 MINIO_SECURE = os.environ.get("MINIO_SECURE", "False").upper() in (
     "TRUE",
     "Y",
     "YES",
     "1",
 )
-
-MONGO_URL = os.environ.get("MONGO_URL", "127.0.0.1")
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb")
 MONGO_PORT = os.environ.get("MONGO_PORT", "27017")
-MONGO_USER = os.environ.get("MONGO_USER", "mongoadmin")
-MONGO_PASSWORD = os.environ.get("MONGO_PASSWORD", "secret")
-MONGO_DATABASE = os.environ.get("MONGO_DATABASE", "ms-document")
+MONGO_USER = os.environ.get("MONGO_USER", "documents")
+MONGO_PASSWORD = os.environ.get("MONGO_PASSWORD", "")
+MONGO_DATABASE = os.environ.get("MONGO_DATABASE", "documents")
 
 DEBUG = os.environ.get("DEBUG", "False").upper() in ("TRUE", "Y", "YES", "1")
 
@@ -26,23 +25,24 @@ ROOT_PREFIX = os.environ.get("ROOT_PREFIX", "/api/documents")
 API_VERSION = os.environ.get("API_VERSION", "1")
 PREFIX = ROOT_PREFIX.rstrip("/") + f"/v{API_VERSION}"
 
-KAFKA_TURN_ON = str(os.environ.get("KAFKA_TURN_ON", True)).upper() in (
+KAFKA_TURN_ON = str(os.environ.get("KAFKA_TURN_ON", False)).upper() in (
     "TRUE",
     "Y",
     "YES",
     "1",
 )
-KAFKA_URL = os.environ.get("KAFKA_URL", "localhost")
+KAFKA_URL = os.environ.get("KAFKA_URL", "kafka:9092")
 
 KAFKA_KEYCLOAK_SCOPES = os.environ.get("KAFKA_KEYCLOAK_SCOPES", "profile")
 KAFKA_KEYCLOAK_CLIENT_ID = os.environ.get("KAFKA_KEYCLOAK_CLIENT_ID", "kafka")
 KAFKA_KEYCLOAK_CLIENT_SECRET = os.environ.get(
-    "KAFKA_KEYCLOAK_CLIENT_SECRET", "secret"
+    "KAFKA_KEYCLOAK_CLIENT_SECRET", ""
 )
 KAFKA_KEYCLOAK_TOKEN_URL = os.environ.get(
-    "KAFKA_KEYCLOAK_TOKEN_URL", "token_url"
+    "KAFKA_KEYCLOAK_TOKEN_URL",
+    "http://keycloak:8080/realms/avataa/protocol/openid-connect/token",
 )
-KAFKA_SECURED = str(os.environ.get("KAFKA_SECURED", True)).upper() in (
+KAFKA_SECURED = str(os.environ.get("KAFKA_SECURED", False)).upper() in (
     "TRUE",
     "Y",
     "YES",
@@ -59,14 +59,14 @@ KAFKA_CONSUMER_OFFSET = os.environ.get("KAFKA_CONSUMER_OFFSET", "latest")
 KAFKA_SECURITY_TOPIC = os.environ.get(
     "KAFKA_SECURITY_TOPIC", "inventory.security"
 )
-KAFKA_INVENTORY_CHANGES_TOPIC = os.environ.get(
-    "KAFKA_INVENTORY_CHANGES_TOPIC", "inventory.changes"
+KAFKA_INVENTORY_CHANGES = os.environ.get(
+    "KAFKA_INVENTORY_CHANGES", "inventory.changes"
 )
 KAFKA_MINIO_CHANGES_TOPIC = os.environ.get(
     "KAFKA_MINIO_CHANGES_TOPIC", "minio.changes"
 )
 
-KAFKA_SUBSCRIBE_TOPICS = f"{KAFKA_MINIO_CHANGES_TOPIC},{KAFKA_SECURITY_TOPIC},{KAFKA_INVENTORY_CHANGES_TOPIC}"
+KAFKA_SUBSCRIBE_TOPICS = f"{KAFKA_MINIO_CHANGES_TOPIC},{KAFKA_SECURITY_TOPIC},{KAFKA_INVENTORY_CHANGES}"
 
 KAFKA_SUBSCRIBE_TOPICS = KAFKA_SUBSCRIBE_TOPICS.split(",")
 
@@ -104,5 +104,33 @@ SWAGGER_JS_URL = os.environ.get("DOCS_SWAGGER_JS_URL", None)
 SWAGGER_CSS_URL = os.environ.get("DOCS_SWAGGER_CSS_URL", None)
 REDOC_JS_URL = os.environ.get("DOCS_REDOC_JS_URL", None)
 
-INVENTORY_GRPC_HOST = os.environ.get("INVENTORY_GRPC_HOST", "localhost")
+INVENTORY_GRPC_HOST = os.environ.get("INVENTORY_GRPC_HOST", "inventory")
 INVENTORY_GRPC_PORT = os.environ.get("INVENTORY_GRPC_PORT", "50051")
+
+# KEYCLOAK SETTINGS
+KEYCLOAK_HOST = os.environ.get("KEYCLOAK_HOST", "keycloak")
+KEYCLOAK_PORT = os.environ.get("KEYCLOAK_PORT", "8080")
+KEYCLOAK_PROTOCOL = os.environ.get("KEYCLOAK_PROTOCOL", "http")
+KEYCLOAK_REALM = os.environ.get("KEYCLOAK_REALM", "avataa")
+KEYCLOAK_REDIRECT_HOST = os.environ.get("KEYCLOAK_REDIRECT_HOST", "")
+KEYCLOAK_REDIRECT_PORT = os.environ.get("KEYCLOAK_REDIRECT_PORT", "")
+KEYCLOAK_REDIRECT_PROTOCOL = os.environ.get("KEYCLOAK_REDIRECT_PROTOCOL", "")
+
+# OPA SETTINGS
+OPA_HOST = os.environ.get("OPA_HOST", "opa")
+OPA_POLICY = os.environ.get("OPA_POLICY", "main")
+OPA_PORT = os.environ.get("OPA_PORT", "8181")
+OPA_PROTOCOL = os.environ.get("OPA_PROTOCOL", "http")
+
+# SECURITY MIDDLEWARE SETTINGS
+SECURITY_MIDDLEWARE_HOST = os.environ.get(
+    "SECURITY_MIDDLEWARE_HOST", "security-middleware"
+)
+SECURITY_MIDDLEWARE_PORT = os.environ.get("SECURITY_MIDDLEWARE_PORT", "8080")
+SECURITY_MIDDLEWARE_PROTOCOL = os.environ.get(
+    "SECURITY_MIDDLEWARE_PROTOCOL", "http"
+)
+SECURITY_TYPE = os.environ.get("SECURITY_TYPE", "KEYCLOAK-INFO")
+
+# UVICORN SETTINGS
+UVICORN_WORKERS = os.environ.get("UVICORN_WORKERS", "")

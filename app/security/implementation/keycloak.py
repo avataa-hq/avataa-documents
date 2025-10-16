@@ -52,29 +52,37 @@ class Keycloak(OAuth2AuthorizationCodeBearer, SecurityInterface):
                 async with session.get(
                     self.keycloak_public_url,
                     timeout=aiohttp.ClientTimeout(total=5),
-                    ssl=False,
                 ) as resp:
                     if resp.status != 200:
+                        print(resp.status, resp.headers)
                         raise HTTPException(
                             status_code=503,
-                            detail="Token verification service unavailable",
+                            detail="Token verification service unavailable 1",
                         )
                     data = await resp.json()
-        except ClientConnectionError:
+        except ClientConnectionError as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 2",
             )
-        except asyncio.TimeoutError:
+        except asyncio.TimeoutError as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 3",
             )
-        except ClientResponseError:
+        except ClientResponseError as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 4",
             )
-        except InvalidURL:
+        except InvalidURL as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 5",
             )
 
         public_key = (
@@ -172,26 +180,37 @@ class KeycloakInfo(Keycloak):
                     timeout=aiohttp.ClientTimeout(total=5),
                 ) as resp:
                     if resp.status != 200:
+                        print(resp.status, resp.headers)
+                        print(f"Connection url: {self.info_url}")
                         raise HTTPException(
                             status_code=503,
-                            detail="Token verification service unavailable",
+                            detail="Token verification service unavailable 6",
                         )
                     data = await resp.json()
-        except ClientConnectionError:
+        except ClientConnectionError as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 7",
             )
-        except asyncio.TimeoutError:
+        except asyncio.TimeoutError as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 8",
             )
-        except ClientResponseError:
+        except ClientResponseError as ex:
+            print(ex)
+            print(ex.headers)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 9",
             )
-        except InvalidURL:
+        except InvalidURL as ex:
+            print(ex)
             raise HTTPException(
-                status_code=503, detail="Token verification service unavailable"
+                status_code=503,
+                detail="Token verification service unavailable 10",
             )
         else:
             return data
