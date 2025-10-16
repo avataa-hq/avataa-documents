@@ -1,0 +1,28 @@
+from pydantic import BaseModel, Field, AnyUrl
+
+from schemas.load_field_description import field_description
+
+fd = field_description["ConstraintRef"]
+
+
+class ConstraintRef(BaseModel):
+    """
+    Constraint reference. The Constraint resource represents a policy/rule applied to an entity or entity spec.
+    """
+
+    referred_type: str | None = Field(
+        default=None, alias="@referredType", description=fd["@referredType"]
+    )
+    name: str | None = Field(default=None, description=fd["name"])
+    href: AnyUrl | None = Field(default=None, description=fd["href"])
+    id: str = Field(description=fd["id"])
+    base_type: str | None = Field(
+        default=None, alias="@baseType", description=fd["@baseType"]
+    )
+    schema_location: AnyUrl | None = Field(
+        default=None, alias="@schemaLocation", description=fd["@schemaLocation"]
+    )
+    type: str | None = Field(
+        default=None, alias="@type", description=fd["@type"]
+    )
+    version: str | None = Field(default=None, description=fd["version"])
