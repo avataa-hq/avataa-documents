@@ -53,6 +53,9 @@ UVICORN_WORKERS=<uvicorn_workers_number>
 
 - `REGISTRY_URL` - Docker regitry URL, e.g. `harbor.domain.com`
 - `PLATFORM_PROJECT_NAME` - Docker regitry project Docker image can be downloaded from, e.g. `avataa`
+
+
+
 Export Compliance
 
 This Software, including any source code, technology, and technical data, is distributed under the Apache License, Version 2.0.
